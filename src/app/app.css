@@ -24,7 +24,6 @@
 /* PDF Viewer Section */
 .pdf-viewer-section {
   flex: 1;
-  overflow: hidden;
   margin-top: 10px;
 }
 
