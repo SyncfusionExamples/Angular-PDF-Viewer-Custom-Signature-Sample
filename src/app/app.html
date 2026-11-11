@@ -1,0 +1,106 @@
+<div class="signature-container" style="margin-top: 100px;">
+  <!-- Checkbox Control -->
+  <div class="signature-control-section">
+    <ejs-checkbox
+      id="enableSignatureCheckbox"
+      label="Enable Custom Signature"
+      [checked]="enableCustomSignature"
+      (change)="onCheckboxChange($event)">
+    </ejs-checkbox>
+  </div>
+
+  <!-- PDF Viewer -->
+  <div class="pdf-viewer-section">
+    <ejs-pdfviewer
+      #pdfViewer
+      id="pdfViewer"
+      [documentPath]="documentPath"
+      [resourceUrl]="resourcesUrl"
+      (formFieldClick)="formFieldClick($event)"
+      (created)="onCreated()"
+      style="height: 640px; display: block">
+    </ejs-pdfviewer>
+  </div>
+
+  <!-- Custom Signature Dialog -->
+  <ejs-dialog
+    #customSignDialog
+    id="customSignatureDialog"
+    target="#pdfViewer"
+    [showCloseIcon]="true"
+    [visible]="false"
+    [header]="'Custom Signature'"
+    width="550px"
+    [height]="'700px'"
+    [isModal]="true"
+    [allowDragging]="true">
+    <ng-template #content>
+      <div class="custom-signature-dialog">
+        <!-- Description -->
+        <div class="dialog-description">
+          <p>Paste a URL to load a signature.</p>
+        </div>
+
+        <!-- URL Input Section -->
+        <div class="url-input-section">
+          <label class="input-label">Signature URL:</label>
+          <div class="input-wrapper">
+            <ejs-textbox
+              id="imageUrlTextbox"
+              placeholder="Enter signature URL (e.g., https://example.com/signature.png)"
+              [(ngModel)]="imageUrl"
+              type="text">
+            </ejs-textbox>
+          </div>
+        </div>
+
+        <!-- Fetch Button -->
+        <div class="fetch-button-section">
+          <button
+            ejs-button
+            id="fetchImageBtn"
+            (click)="onFetchImage()"
+            cssClass="e-primary">
+            Fetch Signature
+          </button>
+        </div>
+
+        <!-- Validation Message -->
+        <div class="validation-message-area" *ngIf="validationMessage">
+          <p class="validation-error">{{ validationMessage }}</p>
+        </div>
+
+        <!-- Canvas Preview -->
+        <div class="canvas-preview-section">
+          <label class="preview-label">Preview:</label>
+          <canvas
+            #previewCanvas
+            id="signatureCanvas"
+            width="300"
+            height="200"
+            class="signature-canvas">
+          </canvas>
+        </div>
+
+        <!-- Dialog Buttons -->
+        <div class="dialog-buttons-section">
+          <button
+            ejs-button
+            id="cancelBtn"
+            cssClass="e-outline"
+            (click)="onCancel()">
+            Cancel
+          </button>
+          <button
+            ejs-button
+            id="saveBtn"
+            cssClass="e-primary"
+            [disabled]="isSaveButtonDisabled"
+            (click)="onSave()">
+            Save
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </ejs-dialog>
+</div>
